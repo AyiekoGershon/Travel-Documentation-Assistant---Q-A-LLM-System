@@ -342,7 +342,7 @@ export default function Home() {
                 )}
               </div>
             ) : (
-              <div className="space-y-8">
+              <div className="space-y-8 pb-80">
                 {/* Messages */}
                 {messages.map((msg) => (
                   <div key={msg.id} className="animate-fade-in">
