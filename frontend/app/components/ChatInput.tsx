@@ -10,6 +10,7 @@ interface ChatInputProps {
   placeholder?: string;
   suggestions?: string[];
   onSuggestionClick?: (suggestion: string) => void;
+  showSuggestions?: boolean;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({ 
@@ -17,7 +18,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
   isLoading, 
   placeholder = "Ask about travel documents, visa requirements, passport rules...",
   suggestions = [],
-  onSuggestionClick
+  onSuggestionClick,
+  showSuggestions = true
 }) => {
   const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -52,9 +54,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* Quick Suggestions */}
-      {suggestions.length > 0 && (
-        <div className="mb-6">
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
+      {suggestions.length > 0 && showSuggestions && (
+        <div className="mb-4 md:mb-6">
+          <p className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 md:mb-3">
             Try asking:
           </p>
           <div className="flex flex-wrap gap-2">

@@ -161,34 +161,34 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        <div className="max-w-6xl mx-auto px-2 md:px-4 py-3 md:py-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2 md:gap-3">
               <div className="p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
-                <FiGlobe className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <FiGlobe className="w-5 h-5 md:w-6 md:h-6 text-primary-600 dark:text-primary-400" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">
                   Travel Documentation Assistant
                 </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 hidden sm:block">
                   AI-powered guidance for travel requirements worldwide
                 </p>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               {/* API Key Button */}
               <button
                 onClick={() => setShowApiKeyModal(true)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors duration-200 ${
+                className={`flex items-center gap-2 px-2 md:px-3 py-2 rounded-lg transition-colors duration-200 text-xs md:text-sm ${
                   userApiKey
                     ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-800/40'
                     : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-200 dark:hover:bg-yellow-800/40'
                 }`}
               >
                 <FiKey className="w-4 h-4" />
-                <span className="text-sm font-medium">
+                <span className="font-medium hidden sm:inline">
                   {userApiKey ? 'API Key ✓' : 'Add API Key'}
                 </span>
               </button>
@@ -207,7 +207,7 @@ export default function Home() {
                   apiStatus === 'healthy' ? 'bg-blue-500' :
                   apiStatus === 'unhealthy' ? 'bg-red-500' : 'bg-yellow-500'
                 }`} />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-xs md:text-sm text-gray-600 dark:text-gray-400 hidden sm:inline">
                   {userApiKey ? 'AI Ready' :
                    apiStatus === 'healthy' ? 'Backend Ready' :
                    apiStatus === 'unhealthy' ? 'Backend Offline' : 'Checking...'}
@@ -218,9 +218,9 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-6xl mx-auto px-2 md:px-4 py-4 md:py-8">
         {/* Stats Banner */}
-        <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="mb-6 md:mb-8 grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4">
           <div className="card">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
@@ -304,7 +304,7 @@ export default function Home() {
         )}
 
         {/* Chat Container */}
-        <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-8">
           {/* Main Chat Area */}
           <div className="flex-1">
             {messages.length === 0 && !isLoading && !error ? (
@@ -329,6 +329,7 @@ export default function Home() {
                       isLoading={isLoading}
                       suggestions={exampleQuestions.slice(0, 3)}
                       onSuggestionClick={handleSuggestionClick}
+                      showSuggestions={true}
                     />
                   </div>
                 ) : (
@@ -407,12 +408,13 @@ export default function Home() {
 
                 {/* Input at Bottom */}
                 {userApiKey && (
-                  <div className="sticky bottom-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg">
+                  <div className="sticky bottom-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm p-3 md:p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg">
                     <ChatInput
                       onSubmit={handleSubmit}
                       isLoading={isLoading}
                       suggestions={exampleQuestions}
                       onSuggestionClick={handleSuggestionClick}
+                      showSuggestions={messages.length === 0}
                     />
                   </div>
                 )}
