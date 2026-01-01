@@ -9,6 +9,10 @@ import ApiKeyModal from './components/ApiKeyModal';
 import { apiService, QueryRequest, QueryResponse, HistoryItem } from './services/api';
 import { FiMenu, FiGlobe, FiAlertCircle, FiCheckCircle, FiKey } from 'react-icons/fi';
 
+interface ChatHistoryItem extends Omit<HistoryItem, 'timestamp'> {
+  timestamp: Date;
+}
+
 export default function Home() {
   const [messages, setMessages] = useState<Array<{
     id: number;
@@ -19,7 +23,7 @@ export default function Home() {
   
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [history, setHistory] = useState<ChatHistoryItem[]>([]);
   const [exampleQuestions, setExampleQuestions] = useState<string[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [apiStatus, setApiStatus] = useState<'checking' | 'healthy' | 'unhealthy'>('checking');
@@ -46,7 +50,12 @@ export default function Home() {
       setApiStatus('healthy'); // Backend is healthy
       
       const historyData = await apiService.getHistory();
-      setHistory(historyData);
+      // Convert string timestamps to Date objects
+      const convertedHistory = historyData.map(item => ({
+        ...item,
+        timestamp: new Date(item.timestamp)
+      }));
+      setHistory(convertedHistory);
     } catch (err) {
       setApiStatus('unhealthy');
       setError('Unable to connect to the server. Please make sure the backend is running.');
@@ -101,7 +110,12 @@ export default function Home() {
 
       // Refresh history
       const updatedHistory = await apiService.getHistory();
-      setHistory(updatedHistory);
+      // Convert string timestamps to Date objects
+      const convertedHistory = updatedHistory.map(item => ({
+        ...item,
+        timestamp: new Date(item.timestamp)
+      }));
+      setHistory(convertedHistory);
 
     } catch (err: any) {
       const errorMsg = err.response?.data?.error || err.message || 'Failed to get response.';
@@ -129,7 +143,7 @@ export default function Home() {
     }
   };
 
-  const handleHistorySelect = useCallback((item: HistoryItem) => {
+  const handleHistorySelect = useCallback((item: ChatHistoryItem) => {
     handleSubmit(item.question);
     setShowHistory(false);
   }, []);
